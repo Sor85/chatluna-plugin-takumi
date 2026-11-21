@@ -1,0 +1,59 @@
+{
+  "name": "chatluna-plugin-takumi",
+  "version": "0.0.1",
+  "description": "Takumi 图片渲染服务：共享字体与渲染器，供其他插件把 HTML 渲染为 PNG 等图片",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sor85/chatluna-plugin-takumi.git"
+  },
+  "homepage": "https://github.com/Sor85/chatluna-plugin-takumi#readme",
+  "bugs": {
+    "url": "https://github.com/Sor85/chatluna-plugin-takumi/issues"
+  },
+  "keywords": ["chatluna-plugin", "takumi", "render", "image"],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "exports": {
+    ".": { "types": "./lib/index.d.ts", "default": "./lib/index.js" },
+    "./package.json": "./package.json"
+  },
+  "files": ["lib", "README.md", "LICENSE"],
+  "engines": { "node": ">=24.0.0" },
+  "scripts": {
+    "sync": "node scripts/sync-to-v2.mjs --once",
+    "sync:watch": "node scripts/sync-to-v2.mjs",
+    "build": "yakumo build",
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@fontsource-variable/noto-sans-jp": "5.2.10",
+    "@fontsource-variable/noto-sans-kr": "5.2.10",
+    "@fontsource-variable/noto-sans-sc": "5.2.10",
+    "@fontsource/dejavu-sans": "5.2.5",
+    "@takumi-rs/core": "1.8.7",
+    "@takumi-rs/helpers": "1.8.7"
+  },
+  "peerDependencies": {
+    "@chatluna/schema": ">=2.0.0-alpha.0",
+    "@satorijs/core": "~4.6.1",
+    "cordis": "^4.0.0-rc.12"
+  },
+  "devDependencies": {
+    "@chatluna/schema": "workspace:*",
+    "@satorijs/core": "~4.6.1",
+    "@types/node": "^24.0.0",
+    "cordis": "4.0.0-rc.12",
+    "typescript": "7.0.2",
+    "vitest": "^3.2.4"
+  },
+  "cordis": {
+    "description": {
+      "zh": "Takumi 图片渲染服务，多个插件共享同一份字体与渲染器",
+      "en": "Takumi image rendering service sharing one font set and renderer across plugins"
+    },
+    "service": { "implements": ["takumi"] }
+  }
+}

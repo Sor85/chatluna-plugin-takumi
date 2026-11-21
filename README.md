@@ -41,7 +41,7 @@ async function renderGreeting(ctx: Context, signal: AbortSignal) {
 - `measure(source, options)`：参数同 `render`，只排版不出图，返回各节点的尺寸与位置（CSS 像素），可用于分页。
 - `fontFamily`：以简体中文字体开头的字体列表；`fontFamilyFor('ja' | 'ko' | 'zh')` 返回以对应语言字体开头的列表，用于日文、韩文内容。
 - `parseHtml(html)`：与 `render` 相同的 HTML 解析结果（节点树与样式表），可用于测试；节点类型 `Node`、`TextNode` 等也从本包导出。
-- `fetch`：下载单张远程图片，返回字节。URL 校验和大小限制由调用方负责；失败或未提供时显示透明占位。
+- `fetch`：下载单张远程图片，返回字节。URL 校验和大小限制由调用方负责；失败或未提供时显示透明占位。只有形如 URL 的 `src` 会经过 `fetch`；已在内存中的图片应使用节点树输入，把字节直接放进图片节点的 `src`（`{ type: 'image', src: bytes }`），否则不会被加载、渲染为空白。
 - `emoji`：emoji 图片集，生成的图片地址同样经过 `fetch`。
 - HTML 中的外部文本须先做 HTML 转义，本服务在解析后的节点树上解码实体。
 - 不要把 `takumi` 写成 `inject: { takumi: { required: false } }`：Cordis 4 仍把它当作必需服务。也可以不写进 `inject`，改用 `cordis.service.optional` 加 `ctx.get('takumi')` 作为可选依赖，但 ChatLuna WebUI 的「服务依赖」面板只显示 `inject`，用户看不到这项依赖。本服务不渲染时不加载 CJK 字体，作为必需依赖的常驻开销很小。

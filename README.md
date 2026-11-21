@@ -18,7 +18,7 @@
 
 ## 在插件中使用
 
-在 `package.json` 中把 `chatluna-plugin-takumi` 加入 `peerDependencies`。图片是插件的必需输出时，在 `cordis.service.required` 和 `inject` 中声明 `takumi`；图片可以回退为文字时，在 `cordis.service.optional` 中声明，并在使用时通过 `ctx.get('takumi')` 获取：
+在 `package.json` 中把 `chatluna-plugin-takumi` 加入 `peerDependencies`，并在 `cordis.service.required` 和 `inject` 中声明 `takumi`：
 
 ```ts
 import type {} from 'chatluna-plugin-takumi'
@@ -44,6 +44,7 @@ async function renderGreeting(ctx: Context, signal: AbortSignal) {
 - `fetch`：下载单张远程图片，返回字节。URL 校验和大小限制由调用方负责；失败或未提供时显示透明占位。
 - `emoji`：emoji 图片集，生成的图片地址同样经过 `fetch`。
 - HTML 中的外部文本须先做 HTML 转义，本服务在解析后的节点树上解码实体。
+- 不要把 `takumi` 写成 `inject: { takumi: { required: false } }`：Cordis 4 仍把它当作必需服务。也可以不写进 `inject`，改用 `cordis.service.optional` 加 `ctx.get('takumi')` 作为可选依赖，但 ChatLuna WebUI 的「服务依赖」面板只显示 `inject`，用户看不到这项依赖。本服务不渲染时不加载 CJK 字体，作为必需依赖的常驻开销很小。
 
 ## 限制
 
